@@ -6,7 +6,7 @@ from django.contrib.contenttypes import generic
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
 
-
+#hello
 class BaseSetting(models.Model):
     class Meta:
         abstract = True
