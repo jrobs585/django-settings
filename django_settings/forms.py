@@ -13,12 +13,12 @@ class SettingForm(forms.ModelForm):
         model = models.Setting
         fields = ('setting_type', 'name')
 
-    value = forms.CharField()
+    value = forms.CharField( widget=forms.Textarea, required=False )
 
     def __init__(self, *a, **kw):
         forms.ModelForm.__init__(self, *a, **kw)
         self.fields['setting_type'].queryset = ContentType.objects.filter(
-            Q(name='string') | Q(name='integer') | Q(name='positive integer'))
+            Q(name='string') | Q(name='text') | Q(name='integer') | Q(name='positive integer'))
 
         instance = kw.get('instance')
         if instance:
@@ -31,12 +31,12 @@ class SettingForm(forms.ModelForm):
 
         value = cd.get('value')
         if not value:
-            self._errors['value'] = self.error_class(['Value field cannot be empty.'])
-        else:
-            setting_form = SettingClassForm({'value': cd['value']})
-            if not setting_form.is_valid():
-                del cd['value']
-                self._errors['value'] = self.error_class(['Value is not valid.'])
+            cd['value'] = ''
+
+        setting_form = SettingClassForm({'value': cd['value']})
+        if not setting_form.is_valid():
+            del cd['value']
+            self._errors['value'] = self.error_class(['Value is not valid.'])
         return cd
 
     def save(self, *args, **kwargs):

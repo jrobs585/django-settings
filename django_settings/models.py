@@ -6,7 +6,7 @@ from django.contrib.contenttypes import generic
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
 
-#hello
+
 class BaseSetting(models.Model):
     class Meta:
         abstract = True
@@ -16,15 +16,21 @@ class BaseSetting(models.Model):
 
 
 class String(BaseSetting):
-    value = models.CharField(max_length=254)
+    value = models.CharField(blank=True, max_length=254)
 
+class Text(BaseSetting):
+    value = models.TextField(blank=True)
+
+# may work on later
+#class Image(BaseSetting):
+#    value = models.ImageField()
 
 class Integer(BaseSetting):
-    value = models.IntegerField()
+    value = models.IntegerField(null=True, blank=True)
 
 
 class PositiveInteger(BaseSetting):
-    value = models.PositiveIntegerField()
+    value = models.PositiveIntegerField(null=True, blank=True)
 
 
 class SettingManager(models.Manager):
