@@ -7,8 +7,10 @@ from django_settings import models, forms
 
 def get_setting_value(obj):
     data = obj.setting_object.value
-    ellipsified = (data[:70] + '...') if len(data) > 73 else data
-    return ellipsified
+    if type(data)==str:
+        data = (data[:70] + '...') if len(data) > 73 else data
+    return data
+
 get_setting_value.short_description = _('Value')
 
 
